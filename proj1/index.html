@@ -2,6 +2,8 @@
 	<head>
 	</head>
 	<body>
+		<p>Website Submission Link: <a href="https://cal-cs184-student.github.io/sp22-project-webpages-doinksta/proj1/index.html">https://cal-cs184-student.github.io/sp22-project-webpages-doinksta/proj1/index.html</a></p>
+		<br>
 		<h1>Task 1</h1>
 		<em>Walk through how you rasterize triangles in your own words.</em>
 		<p>First we find the bounding box by taking the min and the max of all x and y coordinates. Then, we calculate the inside triangle function by using three different line equations, taking two points of the triangle and calculating the sign of the outside point. Therefore, for each line, we end up with a sign of which is technically “inside”. Then, for each point inside the bounding box, we check if it’s inside the triangle by comparing the sign of each of the three lines with our cached sign, and then if it is inside, we call rasterize_point to color the pixel. </p>
