@@ -19,17 +19,18 @@
 		<p>Supersampling does the same thing as the last algorithm in task 1, except we iterate over all subpixel coordinates as well. However, this time, we have to keep a separate buffer to write in all of super pixels. We write into a sample buffer which is of size width <* sqrt(sample_rate), height *sqrt(sample_rate)>. Then, inside of the resolve_frame_buffer, we average the color values per superpixel, and then return an image in the original resolution. Supersampling basically samples the underlying function by averaging (and effectively blurring), and makes the lines look smoother since there is a gradient around edges.</p>
 
 		<em>Show png screenshots of basic/test4.svg with the default viewing parameters and sample rates 1, 4, and 16 to compare them side-by-side. Position the pixel inspector over an area that showcases the effect dramatically; for example, a very skinny triangle corner. Explain why these results are observed.</em>
-		<table style="margin-left:auto;margin-right:auto;">
+
+		<br>
+
+		<img src="resources/q2_1.png" style="width: 33%;">
+		<img src="resources/q2_4.png" style="width: 33%;">
+		<img src="resources/q2_16.png" style="width: 33%;">
+		
+		<table style="width: 100%;">			
 			<tr>
-			<td><img src="resources/q2_1.png"></td>
-			<td><img src="resources/q2_4.png"></td>
-			<td><img src="resources/q2_16.png"></td>
-			</tr>
-			
-			<tr>
-			<td><p style="text-align:center;">Sample Rate 1</p></td>
-			<td><p style="text-align:center;">Sample Rate 4</p></td>
-			<td><p style="text-align:center;">Sample Rate 16</p></td>
+			<td style="width: 33%"><p style="text-align:center;">Sample Rate 1</p></td>
+			<td style="width: 33%"><p style="text-align:center;">Sample Rate 4</p></td>
+			<td style="width: 33%"><p style="text-align:center;">Sample Rate 16</p></td>
 			</tr>
 		</table>
 
@@ -37,8 +38,9 @@
 
 		<h1>Task 3</h1>
 		<em>Create an updated version of svg/transforms/robot.svg with cubeman doing something more interesting, like waving or running. Feel free to change his colors or proportions to suit your creativity. Save your svg file as my_robot.svg in your docs/ directory and show a png screenshot of your rendered drawing in your write-up. Explain what you were trying to do with cubeman in words.</em>
+
 		<p style="text-align:center;">
-			<img src="resources/q3.png">
+			<img src="resources/q3.png" style="width:99%">
 		</p>
 		<p>We wanted to make cubeman wave with his right hand, so we adjusted the right arm to rotate to 45 degrees and then the forearm to rotate 20 degrees towards the head.</p>
 
@@ -46,14 +48,14 @@
 		<em>Explain barycentric coordinates in your own words and use an image to aid you in your explanation. One idea is to use a svg file that plots a single triangle with one red, one green, and one blue vertex, which should produce a smoothly blended color triangle.</em>
 
 		<p style="text-align:center;">
-			<img src="resources/q4_triangle.png">
+			<img src="resources/q4_triangle.png" style="width: 100%;">
 		</p>
 
 		<p>Barycentric coordinates is an interpolation strategy for points contained inside triangles. Each point within the triangle is assigned weights that roughly correspond to “how much influence” each vertex of the triangle has over the point; this is calculated by calculating the proportion of distances formed when projecting the point of interest to the altitude of the triangle dropped down from each of the three vertices. Using these weights, we can then interpolate values assigned to each of the three vertices to get a value for each point within the triangle. In this case, we use color as our quality to interpolate, and we weight the color based on the distance from each point. For example, near the blue coordinate, all of the coordinates are blue. But when it goes near the midpoint between the red coordinate and the blue coordinate, it turns into purple, since it’s equally weighted between red and blue.</p>
 
 		<em>Show a png screenshot of svg/basic/test7.svg with default viewing parameters and sample rate 1. If you make any additional images with color gradients, include them.</em>
 		<p style="text-align:center;">
-			<img src="resources/q4.png">
+			<img src="resources/q4.png" style="width: 100%;">
 		</p>
 
 		<h1>Task 5</h1>
@@ -62,27 +64,35 @@
 		<p>To perform nearest sampling, we figure out which pixel in the texture map is closest to the (u, v) coordinate of interest, and return the color at that pixel. On the other hand, to perform bilinear sampling, we determine the closest 4 pixels in the texture map that form a box around the (u, v) coordinate of interest; afterwards, we perform linear interpolation three times on the colors stored at the 4 pixels, twice in the horizontal direction and once in the vertical direction.</p>
 
 		<em>Check out the svg files in the svg/texmap/ directory. Use the pixel inspector to find a good example of where bilinear sampling clearly defeats nearest sampling. Show and compare four png screenshots using nearest sampling at 1 sample per pixel, nearest sampling at 16 samples per pixel, bilinear sampling at 1 sample per pixel, and bilinear sampling at 16 samples per pixel.</em>
-		<table style="margin-left:auto;margin-right:auto;">
-			<tr>
-			<td><img src="resources/q5_n_1.png"></td>
-			<td><img src="resources/q5_n_16.png"></td>
-			</tr>
+		<br>
+		<img src="resources/q5_n_1.png" style="width: 48%;">
+		<img src="resources/q5_n_16.png" style="width: 48%;">
+
+		<table style="width: 100%;">
 			
 			<tr>
 			<td><p style="text-align:center;">Nearest Sampling, 1 Sample per Pixel</p></td>
 			<td><p style="text-align:center;">Nearest Sampling, 16 Samples per Pixel</p></td>
 			</tr>
 
-			<tr>
-				<td><img src="resources/q5_b_1.png"></td>
-				<td><img src="resources/q5_b_16.png"></td>
-				</tr>
+			
+		</table>
+
+		<img src="resources/q5_b_1.png" style="width: 48%;">
+		<img src="resources/q5_b_16.png" style="width: 48%;">
+
+		
+
+		<table style="width: 100%;">
+			
 				
 				<tr>
 				<td><p style="text-align:center;">Bilinear Sampling, 1 Sample per Pixel</p></td>
 				<td><p style="text-align:center;">Bilinear Sampling, 16 Samples per Pixel</p></td>
 				</tr>
 		</table>
+
+		<br>
 
 		<em>Comment on the relative differences. Discuss when there will be a large difference between the two methods and why.</em>
 		<p>When we look closely at the pixel inspector, we find that the edges of high frequency detail in the bilinear interpolation rendered image are much blurrier and have smoother transitions between different colored components compared to the nearest interpolation method. This is to be expected since nearest takes the color of the nearest texture coordinate and can result in high contrast at edges depending on the pixel’s distance from a texture point; however, bilinear interpolation weights its color based on the proportional distance from its 4 closest texture coordinate neighbors, which would then interpolate and blur between the texture. However, when we supersample at rate 16, there’s a very small difference since we already sample at a higher frequency and average, so the interpolation is not as noticeable.</p>
@@ -105,22 +115,30 @@
 		<em>Using a png file you find yourself, show us four versions of the image, using the combinations of L_ZERO and P_NEAREST, L_ZERO and P_LINEAR, L_NEAREST and P_NEAREST, as well as L_NEAREST and P_LINEAR.</em>
 		<em>To use your own png, make a copy of one of the existing svg files in svg/texmap/ (or create your own modelled after one of the provided svg files). Then, near the top of the file, change the texture filename to point to your own png. From there, you can run ./draw and pass in that svg file to render it and then save a screenshot of your results.</em>
 		<em>Note: Choose a png that showcases the different sampling effects well. You may also want to zoom in/out, use the pixel inspector, etc. to demonstrate the differences.</em>
-		<table style="margin-left:auto;margin-right:auto;">
-			<tr>
-			<td><img src="resources/q6_l_z_p_n.png"></td>
-			<td><img src="resources/q6_l_z_p_l.png"></td>
-			</tr>
+		<br>
+
+		<img src="resources/q6_l_z_p_n.png" style="width: 48%;">
+		<img src="resources/q6_l_z_p_l.png" style="width: 48%;">
+
+		<table style="width:100%;">
+			
 			
 			<tr>
 			<td><p style="text-align:center;">L_ZERO and P_NEAREST</p></td>
 			<td><p style="text-align:center;">L_ZERO and P_LINEAR</p></td>
 			</tr>
 
-			<tr>
-				<td><img src="resources/q6_l_n_p_n.png"></td>
-				<td><img src="resources/q6_l_n_p_l.png"></td>
-				</tr>
-				
+			
+		</table>
+
+
+		<img src="resources/q6_l_n_p_n.png" style="width: 48%;">
+		<img src="resources/q6_l_n_p_l.png" style="width: 48%;">
+		
+			
+
+		<table style="width: 100%;">
+			
 				<tr>
 				<td><p style="text-align:center;">L_NEAREST and P_NEAREST</p></td>
 				<td><p style="text-align:center;">L_NEAREST ad P_LINEAR</p></td>
