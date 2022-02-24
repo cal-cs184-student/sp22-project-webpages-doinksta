@@ -132,5 +132,28 @@
 		<em>Write about your eventful debugging journey, if you have experienced one.</em>
 		<br><br>
 		<img src="vis/meme.jpeg" class="img-responsive" style="width: 20%;">
+
+		<h1>Part 5</h1>
+		<em>Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used.</em>
+		<br><br>
+		<p>To implement the edge split operation, our approach was very similar to implementing the edge split operation. Once again, we labeled every component involved in the edge split (the two triangle faces that were neighboring the edge to be split upon, and all of their vertices, edges, etc.). We then redrew the diagram, but this time adding the new vertex, faces, and edges that were created during the split, and we assigned new labels / shifted old labels around until all the new components were labeled. We then manually redefined in code each component’s fields pointed to so that it was a valid configuration.</p>
+		<p>Our code that did the reassignment of pointers was correct in one try, but we ran into some issues regarding creating new vertices / faces / edges. To facilitate debugging, we tried returning the final vertex early within the code to see if segfaults / exceptions arose, and this helped pinpoint where the issues originated from.</p>
+		<br>
+		<em>Show screenshots of a mesh before and after some edge splits.</em>
+		<br><br>
+		<p>TODO</p>
+		<br>
+		<em>Show screenshots of a mesh before and after a combination of both edge splits and edge flips.</em>
+		<br><br>
+		<p>TODO</p>
+		<br>
+		<em>Write about your eventful debugging journey, if you have experienced one.</em>
+		<br><br>
+		<p>Our code that did the reassignment of pointers was correct in one try, but we ran into some issues regarding creating new vertices / faces / edges. After combing through some documentation, we found the appropriate way to create these objects; afterwards, everything worked well.</p>
+		<br>
+		<em>If you have implemented support for boundary edges, show screenshots of your implementation properly handling split operations on boundary edges.</em>
+		<br><br>
+		<p>We did not implement support for boundary edges.</p>
+
 	</body>
 </html>
