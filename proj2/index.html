@@ -189,5 +189,77 @@
 		<br><br>
 		<p>We did not implement support for boundary edges.</p>
 
+		<h1>Part 6</h1>
+		<em>Briefly explain how you implemented the loop subdivision and describe any interesting implementation / debugging tricks you have used.</em>
+		<br><br>
+		<p>To implement loop subdivision, we first computed the new locations of all the old and new vertices before doing the subdivision itself. We then updated our edge split function to label two of the brand new edges formed as “new” edges, to distinguish blue edges vs. black edges. Next, we implemented the subdivision of the mesh by splitting every edge and then flipping the new “blue” edges created in the process. Finally, we iterated through all the old edges and old vertices, and then set the midpoints of the edges / old vertices to their proper locations based on the weighting rules.</p>
+		<p>When we initially tested our code, we noticed that our meshes looked asymmetrical when upsampling them. To investigate why, we got rid of the weighting rules and set every old vertex’s new position to be at the origin (0, 0, 0). When we tried mesh upsampling with this version, we noticed that only one of the cube’s original vertices was sent into the center; all the other vertices remained where they originally were. This led us to realize that one of our for loops that updated vertex positions was not functioning, and once we fixed the bug, the mesh upsampling worked correctly.</p>
+		<br>
+		<em>Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?</em>
+		<br><br>
+		<p>As more and more iterations of loop subdivision are applied, sharp corners and edges become more rounded out. Presplitting certainly makes subdivision more even, however it doesn’t reduce the fact that the sharp edges get rounded across subdivisions. Perhaps using a different weighting function on the edges will prevent the rounding effect across subdivisions.</p>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">No Loop Subdivision</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 1</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 2</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 3</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/torus-0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/torus-1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/torus-2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/torus-3.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/icosahedron-0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/icosahedron-1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/icosahedron-2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/icosahedron-3.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<em>Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects.</em>
+		<br><br>
+		<p>Each of the cubes faces were only subdivided into 2 triangles, which would then place unequal weight on each of the corner vertices on the next position update. In order to alleviate this problem, you can split the cube face into 4 triangles, and the cube ends up looking more symmetric since each of its neighbors are now almost equidistant from the point.</p>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Preprocessed?</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">No Loop Subdivision</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 1</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 2</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 3</th>
+					<th scope="col" class ="col-4 d-flex justify-content-center text-center">Loop Subdivision Iteration 4</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="row d-flex justify-content-center text-center">Not Preprocessed</td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-3.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-4.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class="row d-flex justify-content-center text-center">Preprocessed</td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-sym-0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-sym-1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-sym-2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-sym-3.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/cube-sym-4.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<em>If you have implemented any extra credit extensions, explain what you did and document how they work with screenshots.</em>
+		<br><br>
+		<p>We did not implement the extra credit extensions.</p>
+
 	</body>
 </html>
