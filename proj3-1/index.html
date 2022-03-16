@@ -70,11 +70,171 @@
 		</p>
 
 		<h1>Part 3</h1>
+		<em>
+			Walk through both implementations of the direct lighting function.
+		</em>
+		<p>Direct Lighting only considers light that came from one bounce from another lighting source. What that means is at every single ray-object intersection, you check if it is lit by any light. This is where the two approaches differ - the direct lighting with uniform hemisphere lighting will sample a random angle on the hemisphere, and then cast a ray in that direction. If it hits an object, then you get its emission. If the intersected object is not a light or the ray doesn’t intersect with anything, then it won’t emit anything and return 0. However, if it does hit an object, it will return the emission of that object, and with that, we can calculate the emitted radiance of the object by sampling its BRDF (in this case, diffuse Lambertian), multiplied by the incoming radiance and Lambert’s cosine law, then divided by the probability of sampling that light over the PDF which is 1/2pi. 
+			The importance sampling is more effective in the sense that we will never sample space that doesn’t have light as we did before. Instead, we loop over all of the lights in the scene, and sample a radiance. We grab M samples of each light, and for each light, we check if that light intersects the object by casting a ray and checking the distance between the light and the intersection. If it is less, than we know we are in a shadow, but if it is, then we calculate the radiance reflected by the object by doing the same as above, except we divide by the pdf of that particular type of light. In the case of a point light, we don’t need to grab M samples, and instead just sample it once, since the pdf is 1.
+		</p>
+
+		<em>
+			Show some images rendered with both implementations of the direct lighting function.
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part3_hemisphere_sample.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part3_light_sample.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center">Hemisphere Sampling</td>
+					<td class ="col-4 d-flex justify-content-center text-center">Importance Light Sampling</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<em>
+			Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.
+		</em>
+
+		The noise levels in the shadows are very high in the soft shadows of the light samples of 1-16, however when we take 64, we start to see a shadow that's more realistic, but it still has a bit of noise around the edges.
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part3_1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part3_4.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part3_16.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part3_64.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center">1</td>
+					<td class ="col-4 d-flex justify-content-center text-center">4</td>
+					<td class ="col-4 d-flex justify-content-center text-center">16</td>
+					<td class ="col-4 d-flex justify-content-center text-center">64</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<em>
+			Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
+		</em>
+
+		<p>
+			Uniform hemisphere sampling is noisier because for some pixels, you may sample no light at all since all directions may not intersect with a light source. We find dots with fluctuating luminances next to each other in some of our images with uniform hemisphere sampling since we average over samples that don’t contribute to the radiance estimate. For importance sampling however, every point samples the light if it has an outgoing ray that hits the light, so there is less noise in the image, and it ends up looking smoother in a local field around a point. 
+		</p>
 
 
 		<h1>Part 4</h1>
 
+		<em>
+			Walk through your implementation of the indirect lighting function.
+		</em>
+
+		<p>
+			We first modify the top level function call, est_radiance_global_illumination to call at_least_one_bounce. Inside of that function, we first call one_bounce_lighting, which gets the direct lighting for a given object. Then, we want to recurse on the remaining bounces of light, but we first need to decide on a termination criteria. We set the ray depth equal to a max_ray_depth in ray_trace_pixel, and we subtract the ray depth by one each time we call the function on the ray. We check the following two conditions are true: flip a coin with the probability of 0.7 of continuing, and check the ray depth is not zero. If true, we want to recursively call the function at_least_one_bounce on the intersected point and the outgoing ray at that point, and multiply the returned radiance by the cosine between the normal and the outgoing ray, the brdf at that point, as well as divide by the probability of sampling that angle and the continuation probability. We then return the additional bounces of light added with the direct light. 
+		</p>
+		<em> 
+			Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel. 
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_spheres.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_dragon.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_depth100.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<em>
+			Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_direct_illum.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_indirect_illum.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center">Direct Illumination</td>
+					<td class ="col-4 d-flex justify-content-center text-center">Indirect Illumination</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<em>
+			For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_depth0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_depth1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_depth2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_depth3.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_depth100.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center">Max Ray Depth 0</td>
+					<td class ="col-4 d-flex justify-content-center text-center">1</td>
+					<td class ="col-4 d-flex justify-content-center text-center">2</td>
+					<td class ="col-4 d-flex justify-content-center text-center">3</td>
+					<td class ="col-4 d-flex justify-content-center text-center">100</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<em>
+			Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_1_4.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_2_4.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_4_4.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_8_4.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center">1</td>
+					<td class ="col-4 d-flex justify-content-center text-center">2</td>
+					<td class ="col-4 d-flex justify-content-center text-center">4</td>
+					<td class ="col-4 d-flex justify-content-center text-center">8</td>				
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_16_4.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_64_4.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/part4_1024_4.png" class="img-responsive"></td>
+				
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center">16</td>
+					<td class ="col-4 d-flex justify-content-center text-center">64</td>
+					<td class ="col-4 d-flex justify-content-center text-center">1024</td>
+				</tr>
+			</tbody>
+		</table>
+
 
 		<h1>Part 5</h1>
+
+		<em>
+			Walk through your implementation of the adaptive sampling.
+		</em>
+		
+		<p>
+			For our implementation of adaptive sampling, we adjust the raytrace_pixel function in order to sample adaptively - i.e. end the loop early if the variance of the image pixel samples goes down or the number of samples is large enough. That logic is summarized in the metric of 1.96 * standard deviation / sqrt(samples), and we want to check if it’s less than a max tolerance around the mean. So, we use a streaming version of calculating the mean and variance, and then for every samplesPerBatch, we check if the above condition is true, and then we end the sampling there for that pixel. Then, we set the rate image equal to the number of samples we used. 
+		</p>
+
+		<em>
+			Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth.
+		</em>
 	</body>
 </html>
