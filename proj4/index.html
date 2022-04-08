@@ -45,11 +45,207 @@
 
 		<h1>Part 2</h1>
 
+		<em>Experiment with some the parameters in the simulation. To do so, pause the simulation at the start with P, modify the values of interest, and then resume by pressing P again. You can also restart the simulation at any time from the cloth's starting position by pressing R.
+			Describe the effects of changing the spring constant ks; how does the cloth behave from start to rest with a very low ks? A high ks?
+			What about for density?
+			What about for damping?
+			For each of the above, observe any noticeable differences in the cloth compared to the default parameters and show us some screenshots of those interesting differences and describe when they occur.
 
+		</em>
+		<br>
+		<br>
+		<p>When we change the spring constant, we find that the smaller spring constant has more folds while it is falling, while the larger spring constant looks relatively stiff as it is falling. Their resting positions correspond to how stiff the cloth is, with the smallest one having many folds in its resting position, while the larger spring constant only has one major fold. </p>
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> State </td>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS = 10</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS = 5000</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS = 100000</td>				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> Halfway </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_10_half.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_5000_half.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_100000_half.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> Resting </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_10_full.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_5000_full.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_100000_full.png" class="img-responsive"></td>
+				</tr>
+				
+			</tbody>
+		</table>
+
+		When we change the density of the point masses, we find that the least dense has the least amount of sagging of the cloth from the pinned corners, while the more dense has larger sagging due to the force of gravity being larger when the masses of each point increase. The larger point masses also seem to correspond with more folding of the cloth, probably due to the increase of mass of each of the point masses makes the spring force larger.
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> State </td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Density 1</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Density 15</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Density 5000 </td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> Halfway </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_density_1_half.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_density_15_half.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_density_5000_half.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> Resting </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_density_1_full.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_density_15_full.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_density_5000_full.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		When you increase the damping constant, it takes longer for the cloth to fall since the spring force is smaller. We see that in the second row compared to the first, it takes longer to reach the resting state. 
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> Damping </td>
+					<td class ="col-4 d-flex justify-content-center text-center"> t0 </td>
+					<td class ="col-4 d-flex justify-content-center text-center"> t1</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> t2</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> t3</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Resting State </td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 0.2 (default) </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.2_t0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.2_t1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.2_t2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.2_t3.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_ks_5000_full.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 0.586 </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.586_t0.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.586_t1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.586_t2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.586_t3.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_damping_0.586_final.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+
+		<em>
+			Show us a screenshot of your shaded cloth from scene/pinned4.json in its final resting state! If you choose to use different parameters than the default ones, please list them.
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_pin4_1.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_pin4_2.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p2_pinr_3.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
+		
 		<h1>Part 3</h1>
 
+		<em>
+			Show us screenshots of your shaded cloth from scene/sphere.json in its final resting state on the sphere using the default ks = 5000 as well as with ks = 500 and ks = 50000. Describe the differences in the results.
+		</em>
+		Smaller spring constant has more folds on itself, and the larger spring constant has less folds, which corresponds with how rigid the cloth is. This corresponds with what the spring constants mean, as the higher the spring constant, the more rigid the cloth is. 
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p3_ks_500.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p3_ks_5000.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p3_ks_50000.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS = 500</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS = 5000</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS = 50000 </td>
+				</tr>
+			</tbody>
+		</table>
+
+		<em>
+			Show us a screenshot of your shaded cloth lying peacefully at rest on the plane. If you haven't by now, feel free to express your colorful creativity with the cloth! (You will need to complete Part 5 first to show custom colors for anything but the "Wireframe" material.)
+		</em>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p3_plane.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> cloth lying peacefully</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<h1>Part 4</h1>
+
+		<em>
+			Show us at least 3 screenshots that document how your cloth falls and folds on itself, starting with an early, initial self-collision and ending with the cloth at a more restful state (even if it is still slightly bouncy on the ground).
+		</em>
+		<em>
+			Vary the density as well as ks and describe with words and screenshots how they affect the behavior of the cloth as it falls on itself.
+		</em>
+
+		Low density (the thing weighs less): fewer ripples initially, and it’s more smoothly folded in the end (not collapsed on itself as much)
+		High density: lots of ripples initially, but localized only at the bottom of the cloth hitting the table. At the end, cloth is a lot more wrinkly and compressed
+
+		Low ks case looks like the high density case, lots of ripples folded in on itself. 
+		High ks case looks like the low density case, where there's fewer ripples and folded in on itself.
+
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> KS</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Density</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Start</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> Mid </td>
+					<td class ="col-4 d-flex justify-content-center text-center"> End </td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 5000 (Default)</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> 15 (Default) </td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_reg_start.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_reg_mid.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_reg_end.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 500</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> 15</td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_ks_500_start.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_ks_500_mid.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_ks_500_end.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 50000</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> 15</td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_ks_50000_start.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_ks_50000_mid.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_ks_50000_end.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 5000</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> 1</td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_density_1_start.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_density_1_mid.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_density_1_end.png" class="img-responsive"></td>
+				</tr>
+				<tr>
+					<td class ="col-4 d-flex justify-content-center text-center"> 5000</td>
+					<td class ="col-4 d-flex justify-content-center text-center"> 5000</td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_density_5000_start.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_density_5000_mid.png" class="img-responsive"></td>
+					<td class ="col-4 d-flex justify-content-center text-center"><img src="vis/p4_density_5000_end.png" class="img-responsive"></td>
+				</tr>
+			</tbody>
+		</table>
 
 
 		<h1>Part 5</h1>
