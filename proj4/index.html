@@ -255,8 +255,12 @@
 		<em>
 			Explain in your own words what is a shader program and how vertex and fragment shaders work together to create lighting and material effects.
 		</em>
+		<br>
+		<br>
+		A shader program is a program written in GLSL that is placed on the GPU to accelerate graphics rendering. The two types of shader programs used in this assignment are vertex and fragment shaders. Vertex shaders assign properties to individual vertices, such as color, normal vector direction, tangent vector direction, etc. The output of the vertex shader is then sent to the fragment shader, which handles interpolating the properties of individual vertices over points in between the original vertices (e.g. over triangular surfaces). The fragment shader then can be instructed on how to use these interpolated properties of points to determine the fragment’s final color; examples of this include interpolating colors of original vertices, or using the location associated with the fragment to sample from a texture or material map. The final fragment colors are then sent to the renderer to be drawn on the screen.
 
-
+		<br>
+		<br>
 
 		<em>
 			Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.
